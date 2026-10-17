@@ -1,0 +1,79 @@
+/*
+ * Unidesk - window accents: each window (session) can take a colour, which marks its tabs and the
+ * top of its header bar, so similar windows are told apart. The palette is the GNOME accent palette
+ * (GNOME 47), the way the project follows the GNOME HIG; rcw.c only names the colours.
+ * Contrast (WCAG 2.2, non-text 3:1) against the dark window background #232629: orange 4.4,
+ * yellow 5.5, teal 4.4, green 4.4, red 3.9, pink 4.6, blue 4.3, purple 3.3, slate 4.0.
+ */
+
+@define-color unidesk_accent_orange #ed5b00;
+@define-color unidesk_accent_yellow #c88800;
+@define-color unidesk_accent_teal #2190a4;
+@define-color unidesk_accent_green #3a944a;
+@define-color unidesk_accent_red #e62d42;
+@define-color unidesk_accent_pink #d56199;
+@define-color unidesk_accent_blue #3584e4;
+@define-color unidesk_accent_purple #9141ac;
+@define-color unidesk_accent_slate #6f8396;
+
+/* The window: a line under every tab, a thicker one under the current tab, a line on top */
+.unidesk-accent-orange .unidesk-tab-box { box-shadow: inset 0 -2px 0 0 alpha(@unidesk_accent_orange, 0.55); }
+.unidesk-accent-orange .unidesk-tab-box.current { box-shadow: inset 0 -3px 0 0 @unidesk_accent_orange; }
+.unidesk-accent-orange headerbar { box-shadow: inset 0 3px 0 0 @unidesk_accent_orange; }
+.unidesk-accent-yellow .unidesk-tab-box { box-shadow: inset 0 -2px 0 0 alpha(@unidesk_accent_yellow, 0.55); }
+.unidesk-accent-yellow .unidesk-tab-box.current { box-shadow: inset 0 -3px 0 0 @unidesk_accent_yellow; }
+.unidesk-accent-yellow headerbar { box-shadow: inset 0 3px 0 0 @unidesk_accent_yellow; }
+.unidesk-accent-teal .unidesk-tab-box { box-shadow: inset 0 -2px 0 0 alpha(@unidesk_accent_teal, 0.55); }
+.unidesk-accent-teal .unidesk-tab-box.current { box-shadow: inset 0 -3px 0 0 @unidesk_accent_teal; }
+.unidesk-accent-teal headerbar { box-shadow: inset 0 3px 0 0 @unidesk_accent_teal; }
+.unidesk-accent-green .unidesk-tab-box { box-shadow: inset 0 -2px 0 0 alpha(@unidesk_accent_green, 0.55); }
+.unidesk-accent-green .unidesk-tab-box.current { box-shadow: inset 0 -3px 0 0 @unidesk_accent_green; }
+.unidesk-accent-green headerbar { box-shadow: inset 0 3px 0 0 @unidesk_accent_green; }
+.unidesk-accent-red .unidesk-tab-box { box-shadow: inset 0 -2px 0 0 alpha(@unidesk_accent_red, 0.55); }
+.unidesk-accent-red .unidesk-tab-box.current { box-shadow: inset 0 -3px 0 0 @unidesk_accent_red; }
+.unidesk-accent-red headerbar { box-shadow: inset 0 3px 0 0 @unidesk_accent_red; }
+.unidesk-accent-pink .unidesk-tab-box { box-shadow: inset 0 -2px 0 0 alpha(@unidesk_accent_pink, 0.55); }
+.unidesk-accent-pink .unidesk-tab-box.current { box-shadow: inset 0 -3px 0 0 @unidesk_accent_pink; }
+.unidesk-accent-pink headerbar { box-shadow: inset 0 3px 0 0 @unidesk_accent_pink; }
+.unidesk-accent-blue .unidesk-tab-box { box-shadow: inset 0 -2px 0 0 alpha(@unidesk_accent_blue, 0.55); }
+.unidesk-accent-blue .unidesk-tab-box.current { box-shadow: inset 0 -3px 0 0 @unidesk_accent_blue; }
+.unidesk-accent-blue headerbar { box-shadow: inset 0 3px 0 0 @unidesk_accent_blue; }
+.unidesk-accent-purple .unidesk-tab-box { box-shadow: inset 0 -2px 0 0 alpha(@unidesk_accent_purple, 0.55); }
+.unidesk-accent-purple .unidesk-tab-box.current { box-shadow: inset 0 -3px 0 0 @unidesk_accent_purple; }
+.unidesk-accent-purple headerbar { box-shadow: inset 0 3px 0 0 @unidesk_accent_purple; }
+.unidesk-accent-slate .unidesk-tab-box { box-shadow: inset 0 -2px 0 0 alpha(@unidesk_accent_slate, 0.55); }
+.unidesk-accent-slate .unidesk-tab-box.current { box-shadow: inset 0 -3px 0 0 @unidesk_accent_slate; }
+.unidesk-accent-slate headerbar { box-shadow: inset 0 3px 0 0 @unidesk_accent_slate; }
+
+/* The colours to choose from (and the dot of a session in the lists) */
+button.unidesk-accent-swatch {
+	min-width: 24px;
+	min-height: 24px;
+	padding: 0;
+	border-radius: 6px;
+	border: 1px solid alpha(@theme_fg_color, 0.15);
+	background-image: none;
+	box-shadow: none;
+	color: #ffffff;
+}
+button.unidesk-accent-swatch.selected {
+	box-shadow: 0 0 0 2px @theme_bg_color, 0 0 0 4px @theme_fg_color;
+}
+button.unidesk-accent-swatch-none {
+	background-color: transparent;
+	color: @theme_fg_color;
+}
+.unidesk-accent-dot {
+	min-width: 10px;
+	min-height: 10px;
+	border-radius: 5px;
+}
+.unidesk-accent-swatch-orange { background-color: @unidesk_accent_orange; }
+.unidesk-accent-swatch-yellow { background-color: @unidesk_accent_yellow; }
+.unidesk-accent-swatch-teal { background-color: @unidesk_accent_teal; }
+.unidesk-accent-swatch-green { background-color: @unidesk_accent_green; }
+.unidesk-accent-swatch-red { background-color: @unidesk_accent_red; }
+.unidesk-accent-swatch-pink { background-color: @unidesk_accent_pink; }
+.unidesk-accent-swatch-blue { background-color: @unidesk_accent_blue; }
+.unidesk-accent-swatch-purple { background-color: @unidesk_accent_purple; }
+.unidesk-accent-swatch-slate { background-color: @unidesk_accent_slate; }

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Unidesk symbolic icon (16 px grid): outlined local screen behind, solid remote screen in front, 1 px gap between them. -->
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <path fill="#2e3436" d="M3 1h7a2 2 0 0 1 2 2v2h-2V3H3v5h2v2H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2z"/>
+  <path fill="#2e3436" d="M8 6h5a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"/>
+</svg>

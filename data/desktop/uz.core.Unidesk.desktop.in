@@ -1,0 +1,74 @@
+[Desktop Entry]
+Version=1.0
+Name=UniDeskBrowser
+GenericName=Remote desktop client
+GenericName[ca]=Client d'escriptori remot
+GenericName[cs]=Klient vzdálené pracovní plochy
+GenericName[da]=Fjernskrivebordsklient
+GenericName[de]=Verbindung zu Fremdrechnern
+GenericName[el]=Πελάτης απομακρυσμένης επιφάνειας εργασίας
+GenericName[es]=Cliente de escritorio remoto
+GenericName[eu]=Urruneko mahaigainaren bezeroa
+GenericName[fr]=Afficheur de bureau distant
+GenericName[hr]=Klijent udaljene radne površine
+GenericName[hu]=Távoli asztal kliens
+GenericName[it]=Client per connessione a desktop remoto
+GenericName[lt]=Nutolusio darbastalio klientas
+GenericName[nl]=Client voor verbinding met extern bureaublad
+GenericName[pl]=Klient zdalnego pulpitu
+GenericName[pt_BR]=Cliente de área de trabalho remota
+GenericName[pt_PT]=Cliente de ambiente de trabalho remoto
+GenericName[ru]=Клиент удалённого доступа к рабочему столу
+GenericName[tr]=Uzak Masaüstü İstemcisi
+GenericName[uk]=Клієнт з'єднання з віддаленою стільницею
+GenericName[zh_CN]=远程桌面客户端
+X-GNOME-FullName=UniDeskBrowser Remote Desktop Client
+Comment=Connect to remote computers over RDP, SSH, SFTP and Telnet in one window
+Comment[ru]=Подключение к удалённым компьютерам по RDP, SSH, SFTP и Telnet в одном окне
+TryExec=unidesk
+Exec=unidesk %U
+Icon=uz.core.Unidesk
+Terminal=false
+Type=Application
+Categories=GTK;GNOME;X-GNOME-NetworkSettings;Network;
+Keywords=remote desktop;rdp;ssh;telnet;
+StartupWMClass=uz.core.Unidesk
+MimeType=x-scheme-handler/rdp;x-scheme-handler/ssh;x-scheme-handler/telnet;x-scheme-handler/remmina;application/x-remmina;
+Actions=Profile;Tray;Quit;
+
+[Desktop Action Profile]
+Name=Create a New Connection Profile
+Name[ca]=Crea un perfil de connexió nou
+Name[cs]=Vytvořit nový profil připojení
+Name[da]=Opret en ny forbindelsesprofil
+Name[de]=Ein neues Verbindungsprofil erstellen
+Name[el]=Δημιουργία νέου προφίλ σύνδεσης
+Name[es]=Crear un perfil de conexión nuevo
+Name[eu]=Sortu konexio profil berri bat
+Name[fr]=Créer un nouveau profil de connexion
+Name[hr]=Stvori novi profil povezivanja
+Name[hu]=Új kapcsolatprofil létrehozása
+Name[it]=Crea un nuovo profilo di connessione
+Name[lt]=Sukurti naują prisijungimo profilį
+Name[nl]=Een nieuw verbindingsprofiel aanmaken
+Name[pt_BR]=Criar um novo perfil de conexão
+Name[pt_PT]=Criar um Novo Perfil de Ligação
+Name[ru]=Создать профиль нового соединения
+Name[sk]=Vytvoriť nový profil pripojenia
+Name[sv]=Skapa en ny anslutningsprofil
+Name[tr]=Yeni Bir Bağlantı Profili Oluştur
+Name[uk]=Створити новий профіль з'єднання
+Name[zh_CN]=新建连接配置
+Exec=unidesk --new
+
+[Desktop Action Tray]
+Name=Start UniDeskBrowser Minimized
+Name[ru]=Сворачивать UniDeskBrowser после запуска
+Exec=unidesk --icon
+
+[Desktop Action Quit]
+Name=Quit
+Name[hr]=Zatvori
+Name[ru]=Выйти
+Name[uk]=Вийти
+Exec=unidesk --quit

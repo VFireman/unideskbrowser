@@ -1,0 +1,157 @@
+/*
+ * Unidesk - the SFTP tab looks like Total Commander (dark theme), as the user chose: a deliberate
+ * exception to the GNOME HIG of the rest of Unidesk, limited to .unidesk-fm. Every colour of the tab
+ * is named here; the code looks the row colours up by name (remmina_ftp_panel.c).
+ *
+ * Values from Total Commander 11, dark theme (sftp.png, the [ColorsDark] of its wincmd.ini):
+ *   panel #000000, every other row #0f0f0f (BackColor2), text #adadad (ForeColor),
+ *   frames, lines and the space between the panels #1c1c24 (DarkBackground) with #dcdcdc text,
+ *   column headers #404040, cursor row #334f66, marked files red.
+ * Contrast (WCAG 2.2): #adadad on #000000 9.4:1, on #0f0f0f 8.5:1; #dcdcdc on #1c1c24 12.6:1,
+ * on #404040 7.6:1. Two values differ from Total Commander to reach 4.5:1 on the cursor row:
+ *   cursor text #dcdcdc (6.2:1; Total Commander keeps #adadad, 3.8:1),
+ *   a marked file under the cursor #ffb0b0 (4.9:1; red there is 2.1:1).
+ */
+
+@define-color tc_bg #000000;
+@define-color tc_alt_bg #0f0f0f;
+@define-color tc_fg #adadad;
+@define-color tc_chrome_bg #1c1c24;
+@define-color tc_chrome_fg #dcdcdc;
+@define-color tc_header_bg #404040;
+@define-color tc_header_fg #dcdcdc;
+@define-color tc_cursor_bg #334f66;
+@define-color tc_cursor_fg #dcdcdc;
+@define-color tc_mark_fg #ff0000;
+@define-color tc_mark_cursor_fg #ffb0b0;
+@define-color tc_button_bg #2a2a33;
+@define-color tc_button_hover_bg #353542;
+@define-color tc_frame #404040;
+
+/* A 5 px frame between the tab's edges and its contents (asked by the user) */
+.unidesk-fm {
+	background-color: @tc_chrome_bg;
+	color: @tc_chrome_fg;
+	padding: 5px;
+}
+
+.unidesk-fm > paned > separator {
+	background-color: @tc_chrome_bg;
+	background-image: none;
+	min-width: 4px;
+}
+
+.unidesk-fm-panel {
+	background-color: @tc_chrome_bg;
+}
+
+/* Whose files: "Local computer" / "SFTP: <server>"; the active panel's line has the cursor colours */
+.unidesk-fm-title {
+	background-color: @tc_header_bg;
+	color: @tc_header_fg;
+	font-weight: bold;
+	padding: 2px 6px;
+	margin-bottom: 2px;
+}
+
+.unidesk-fm-panel.active .unidesk-fm-title {
+	background-color: @tc_cursor_bg;
+	color: @tc_cursor_fg;
+}
+
+.unidesk-fm-drive,
+.unidesk-fm-status {
+	background-color: @tc_chrome_bg;
+	color: @tc_chrome_fg;
+	padding: 2px 4px;
+}
+
+.unidesk-fm-drive-name {
+	border: 1px solid @tc_frame;
+	padding: 0 10px;
+	margin-right: 6px;
+}
+
+.unidesk-fm button.unidesk-fm-small-button {
+	background-color: @tc_chrome_bg;
+	background-image: none;
+	color: @tc_chrome_fg;
+	border: 1px solid @tc_frame;
+	border-radius: 0;
+	box-shadow: none;
+	min-height: 0;
+	min-width: 0;
+	padding: 0 6px;
+	margin-left: 2px;
+}
+
+.unidesk-fm button.unidesk-fm-small-button:hover {
+	background-color: @tc_button_hover_bg;
+}
+
+.unidesk-fm entry.unidesk-fm-path {
+	background-color: @tc_chrome_bg;
+	background-image: none;
+	color: @tc_chrome_fg;
+	border: none;
+	border-radius: 0;
+	box-shadow: none;
+	min-height: 0;
+	padding: 2px 4px;
+}
+
+.unidesk-fm treeview.view {
+	background-color: @tc_bg;
+	color: @tc_fg;
+	-GtkTreeView-vertical-separator: 0;
+	-GtkTreeView-horizontal-separator: 0;
+}
+
+.unidesk-fm treeview.view:selected {
+	background-color: @tc_cursor_bg;
+	color: @tc_cursor_fg;
+}
+
+/* Only the active panel shows its cursor row */
+.unidesk-fm-panel:not(.active) treeview.view:selected {
+	background-color: @tc_bg;
+	color: @tc_fg;
+}
+
+.unidesk-fm treeview.view header button {
+	background-color: @tc_header_bg;
+	background-image: none;
+	color: @tc_header_fg;
+	border: none;
+	border-right: 1px solid @tc_chrome_bg;
+	border-radius: 0;
+	box-shadow: none;
+	min-height: 0;
+	padding: 1px 4px;
+}
+
+.unidesk-fm-fkeys {
+	background-color: @tc_chrome_bg;
+	padding-top: 2px;
+}
+
+.unidesk-fm-fkeys button {
+	background-color: @tc_button_bg;
+	background-image: none;
+	color: @tc_chrome_fg;
+	border: 1px solid @tc_chrome_bg;
+	border-radius: 0;
+	box-shadow: none;
+	min-height: 0;
+	padding: 3px 0;
+}
+
+.unidesk-fm-fkeys button:hover {
+	background-color: @tc_button_hover_bg;
+}
+
+.unidesk-fm-background {
+	background-color: @tc_chrome_bg;
+	color: @tc_chrome_fg;
+	padding: 2px 6px;
+}

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (C) 2009-2014 Vic Lee
+  Copyright (C) 2014-2015 Antenore Gatta, Fabio Castelli (Muflone), Giovanni Panozzo.
+  Copyright (C) 2016-2022 Antenore Gatta, Giovanni Panozzo.
+  Copyright (C) 2022-2023 Antenore Gatta, Giovanni Panozzo, Hiroyuki Tanaka.
+-->
+<component type="desktop-application">
+  <id>uz.core.Unidesk</id>
+  <launchable type="desktop-id">uz.core.Unidesk.desktop</launchable>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0+</project_license>
+  <name>UniDeskBrowser</name>
+  <developer id="uz.core">
+    <name>CoRE technologies</name>
+  </developer>
+  <summary>Remote desktop client</summary>
+  <summary xml:lang="ru">Клиент удалённого рабочего стола</summary>
+  <content_rating type="oars-1.1" />
+  <releases>
+      <release version="1.0" date="2026-10-16"/>
+  </releases>
+  <description>
+    <p>
+      UniDeskBrowser is a remote desktop client written in GTK, a fork of Remmina
+      (https://remmina.org). Connections open as tabs of browser-like windows.
+    </p>
+    <p xml:lang="ru">
+      UniDeskBrowser — клиент удалённого рабочего стола на GTK, форк Remmina
+      (https://remmina.org). Подключения открываются вкладками в окнах, как в браузере.
+    </p>
+    <p>
+      UniDeskBrowser supports multiple network protocols in an integrated and
+      consistent user interface. The protocols currently supported are:
+        RDP (Remote Desktop Protocol), SSH (Secure Shell), SFTP and TELNET.
+    </p>
+    <p xml:lang="ru">
+      UniDeskBrowser поддерживает несколько сетевых протоколов в едином интерфейсе:
+        RDP (Remote Desktop Protocol), SSH (Secure Shell), SFTP и TELNET.
+    </p>
+    <p>
+      External plugins are also supported to add new protocols and features.
+    </p>
+    <p xml:lang="ru">
+      Поддерживаются внешние плагины для добавления новых протоколов и возможностей.
+    </p>
+  </description>
+  <provides>
+     <mediatype>application/x-remmina</mediatype>
+  </provides>
+  <translation type="gettext">unidesk</translation>
+</component>

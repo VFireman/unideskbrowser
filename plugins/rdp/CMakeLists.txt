@@ -1,0 +1,155 @@
+# remmina-plugin-rdp - The GTK+ Remote Desktop Client
+#
+# Copyright (C) 2011 Marc-Andre Moreau
+# Copyright (C) 2014-2015 Antenore Gatta, Fabio Castelli, Giovanni Panozzo
+# Copyright (C) 2016-2023 Antenore Gatta, Giovanni Panozzo
+#
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor,
+# Boston, MA  02110-1301, USA.
+#
+# In addition, as a special exception, the copyright holders give
+# permission to link the code of portions of this program with the
+# OpenSSL library under certain conditions as described in each
+# individual source file, and distribute linked combinations
+# including the two.
+# You must obey the GNU General Public License in all respects
+# for all of the code used other than OpenSSL. If you modify
+# file(s) with this exception, you may extend this exception to your
+# version of the file(s), but you are not obligated to do so. If you
+# do not wish to do so, delete this exception statement from your
+# version. If you delete this exception statement from all source
+# files in the program, then also delete it here.
+
+
+set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+find_package(Threads REQUIRED)
+
+find_suggested_package(Cups)
+
+set(REMMINA_PLUGIN_RDP_SRCS
+    rdp_plugin.c
+    rdp_plugin.h
+    rdp_event.c
+    rdp_event.h
+    rdp_file.c
+    rdp_file.h
+    rdp_settings.c
+    rdp_settings.h
+    rdp_graphics.c
+    rdp_graphics.h
+    rdp_cliprdr.c
+    rdp_cliprdr.h
+    rdp_monitor.c
+    rdp_monitor.h
+    rdp_channels.c
+    rdp_channels.h
+    rdp_web_auth.c
+    rdp_web_auth.h
+    )
+
+add_definitions(-DFREERDP_REQUIRED_MAJOR=${FREERDP_REQUIRED_MAJOR})
+add_definitions(-DFREERDP_REQUIRED_MINOR=${FREERDP_REQUIRED_MINOR})
+add_definitions(-DFREERDP_REQUIRED_REVISION=${FREERDP_REQUIRED_REVISION})
+
+add_library(unidesk-plugin-rdp MODULE ${REMMINA_PLUGIN_RDP_SRCS})
+set_target_properties(unidesk-plugin-rdp PROPERTIES PREFIX "")
+set_target_properties(unidesk-plugin-rdp PROPERTIES NO_SONAME 1)
+
+include_directories(
+    ${REMMINA_COMMON_INCLUDE_DIRS}
+    ${FreeRDP-Client_INCLUDE_DIR}
+    ${FreeRDP_INCLUDE_DIR}
+    ${WinPR_INCLUDE_DIR})
+target_link_libraries(unidesk-plugin-rdp
+    ${REMMINA_COMMON_LIBRARIES}
+    freerdp-client)
+
+option(WITH_RDP_AUTH_AAD "Enable AAD authentication support" OFF)
+if(WITH_RDP_AUTH_AAD)
+    if(WITH_FREERDP3)
+        file(READ ${FreeRDP_INCLUDE_DIR}/freerdp/config.h FREERDP_CONFIG_CONTENT)
+        if("${FREERDP_CONFIG_CONTENT}" MATCHES "#define WITH_AAD")
+            set(FREERDP_HAS_AUTH_AAD TRUE)
+        else()
+            message(WARNING "FreeRDP is built without AAD authentication support")
+        endif()
+    else()
+        message(WARNING "FreeRDP 2 does not support AAD authentication")
+    endif()
+
+    find_required_package(WEBKIT2GTK)
+    if(NOT WEBKIT2GTK_FOUND)
+        message(WARNING "WebKit-GTK not found")
+    endif()
+
+    find_required_package(LIBSOUP)
+    if(NOT WEBKIT2GTK_FOUND)
+        message(WARNING "libsoup not found")
+    endif()
+
+    if(FREERDP_HAS_AUTH_AAD AND WEBKIT2GTK_FOUND AND LIBSOUP_FOUND)
+        message(STATUS "Enabling RDP AAD authentication.")
+        # we cannot undefine WITH_AAD defined in FreeRDP so we use our own macro
+        add_definitions(-DWITH_RDP_AUTH_AAD)
+        include_directories(
+            ${WEBKIT2GTK_INCLUDE_DIRS}
+            ${LIBSOUP_INCLUDE_DIRS})
+        target_link_libraries(unidesk-plugin-rdp
+            ${LIBSOUP_LIBRARIES}
+            ${WEBKIT2GTK_LIBRARIES})
+    else()
+        message(WARNING "Disabling RDP AAD authentication.")
+    endif()
+else()
+    message(STATUS "Skipping RDP AAD authentication.")
+endif()
+
+option(WITH_SSO_MIB "Build with sso-mib identity broker support for AAD authentication" OFF)
+if(WITH_SSO_MIB)
+    if(WITH_FREERDP3)
+        find_package(SSO_MIB)
+        if(SSO_MIB_FOUND)
+            message(STATUS "Enabling sso-mib identity broker support.")
+            add_definitions(-DWITH_SSO_MIB)
+            target_sources(unidesk-plugin-rdp PRIVATE rdp_sso_mib.c rdp_sso_mib.h)
+            include_directories(${SSO_MIB_INCLUDE_DIRS})
+            target_link_libraries(unidesk-plugin-rdp ${SSO_MIB_LIBRARIES})
+        else()
+            message(WARNING "sso-mib not found, disabling identity broker support.")
+        endif()
+    else()
+        message(WARNING "sso-mib requires FreeRDP 3, disabling identity broker support.")
+    endif()
+else()
+    message(STATUS "Skipping sso-mib identity broker support.")
+endif()
+
+if(CUPS_FOUND)
+    add_definitions(-DHAVE_CUPS)
+    include_directories(${CUPS_INCLUDE_DIR})
+    target_link_libraries(unidesk-plugin-rdp
+        ${REMMINA_COMMON_LIBRARIES} freerdp-client ${CUPS_LIBRARIES})
+endif()
+
+install(TARGETS unidesk-plugin-rdp DESTINATION ${REMMINA_PLUGINDIR})
+
+install(FILES
+    scalable/emblems/uz.core.Unidesk-rdp-ssh-symbolic.svg
+    scalable/emblems/uz.core.Unidesk-rdp-symbolic.svg
+    DESTINATION ${APPICONSCALE_EMBLEMS_DIR})
+
+if(WITH_ICON_CACHE)
+    gtk_update_icon_cache("${REMMINA_DATADIR}/icons/hicolor")
+endif()

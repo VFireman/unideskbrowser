@@ -1,0 +1,96 @@
+Unidesk patch for FreeRDP 3.31.1: files pasted from the RDP clipboard (FUSE) in a client with several
+connections in one process.
+- Each CliprdrFileContext gets its own directory (FUSE mount point); upstream names it after the PID only,
+  so a second connection could not mount and the first one to close removed the directory of the others.
+- cliprdr_file_context_has_local_support() tells whether FUSE is really mounted (upstream: always TRUE
+  with WITH_FUSE, even without /dev/fuse or fusermount3, and the client then offers file:// paths into an
+  empty directory). The FUSE thread signals its start after the mount attempt, so the answer is known
+  when cliprdr_file_context_new() returns.
+
+diff --git a/client/common/client_cliprdr_file.c b/client/common/client_cliprdr_file.c
+index 947bda8cb..9df03a03f 100644
+--- a/client/common/client_cliprdr_file.c
++++ b/client/common/client_cliprdr_file.c
+@@ -45,6 +45,7 @@
+ #include <winpr/stream.h>
+ #include <winpr/clipboard.h>
+ #include <winpr/path.h>
++#include <winpr/interlocked.h>
+ 
+ #include <freerdp/utils/signal.h>
+ #include <freerdp/log.h>
+@@ -158,6 +159,7 @@ struct cliprdr_file_context
+ 	HANDLE fuse_stop_sync;
+ 	HANDLE fuse_thread;
+ 	struct fuse_session* fuse_sess;
++	BOOL fuse_mounted;
+ #if FUSE_USE_VERSION < 30
+ 	struct fuse_chan* ch;
+ #endif
+@@ -1199,25 +1201,35 @@ static DWORD WINAPI cliprdr_file_fuse_thread(LPVOID arg)
+ 	fuse_opt_add_arg(&args, file->path);
+ 	file->fuse_sess = fuse_session_new(&args, &cliprdr_file_fuse_oper,
+ 	                                   sizeof(cliprdr_file_fuse_oper), (void*)file);
+-	(void)SetEvent(file->fuse_start_sync);
+ 
+ 	if (file->fuse_sess != nullptr)
+ 	{
+ 		if (freerdp_add_signal_cleanup_handler(file, fuse_abort))
+ 		{
+-			if (0 == fuse_session_mount(file->fuse_sess, file->path))
++			/* Mount before signalling the start: cliprdr_file_context_new() returns knowing
++			 * whether files can be pasted locally (cliprdr_file_context_has_local_support) */
++			file->fuse_mounted = (0 == fuse_session_mount(file->fuse_sess, file->path));
++			if (!file->fuse_mounted)
++				WLog_Print(file->log, WLOG_WARN,
++				           "Cannot mount FUSE on '%s': files cannot be pasted locally", file->path);
++			(void)SetEvent(file->fuse_start_sync);
++			if (file->fuse_mounted)
+ 			{
+ 				fuse_session_loop(file->fuse_sess);
++				file->fuse_mounted = FALSE;
+ 				fuse_session_unmount(file->fuse_sess);
+ 			}
+ 			freerdp_del_signal_cleanup_handler(file, fuse_abort);
+ 		}
++		(void)SetEvent(file->fuse_start_sync);
+ 
+ 		WLog_Print(file->log, WLOG_DEBUG, "Waiting for FUSE stop sync");
+ 		if (WaitForSingleObject(file->fuse_stop_sync, INFINITE) == WAIT_FAILED)
+ 			WLog_Print(file->log, WLOG_ERROR, "Failed to wait for stop sync");
+ 		fuse_session_destroy(file->fuse_sess);
+ 	}
++	else
++		(void)SetEvent(file->fuse_start_sync);
+ 	fuse_opt_free_args(&args);
+ 
+ 	DEBUG_CLIPRDR(file->log, "Quitting fuse with mountpoint '%s'", file->path);
+@@ -2140,9 +2152,11 @@ static BOOL create_base_path(CliprdrFileContext* file)
+ {
+ 	WINPR_ASSERT(file);
+ 
++	/* One directory (FUSE mount point) per file context: a client may hold several connections */
++	static LONG context_counter = 0;
+ 	char base[64] = WINPR_C_ARRAY_INIT;
+-	(void)_snprintf(base, sizeof(base), "com.freerdp.client.cliprdr.%" PRIu32,
+-	                GetCurrentProcessId());
++	(void)_snprintf(base, sizeof(base), "com.freerdp.client.cliprdr.%" PRIu32 ".%" PRId32,
++	                GetCurrentProcessId(), (INT32)InterlockedIncrement(&context_counter));
+ 
+ 	file->path = GetKnownSubPath(KNOWN_PATH_TEMP, base);
+ 	if (!file->path)
+@@ -2607,11 +2621,11 @@ UINT32 cliprdr_file_context_remote_get_flags(CliprdrFileContext* file)
+ 
+ BOOL cliprdr_file_context_has_local_support(CliprdrFileContext* file)
+ {
+-	WINPR_UNUSED(file);
+-
+ #if defined(WITH_FUSE)
+-	return TRUE;
++	/* Only with the FUSE file system mounted (no /dev/fuse or fusermount3: no local paste) */
++	return file && file->fuse_mounted;
+ #else
++	WINPR_UNUSED(file);
+ 	return FALSE;
+ #endif
+ }

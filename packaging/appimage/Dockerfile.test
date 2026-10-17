@@ -1,0 +1,8 @@
+FROM unidesk-build
+# xdotool: clicks and keys in UI tests; librsvg2-bin: icon rendering;
+# xclip: read/write the X clipboard in clipboard tests; locales: ru_RU/en_US for translation tests;
+# fuse3: fusermount3 for the clipboard file system (run the container with --device /dev/fuse --cap-add SYS_ADMIN);
+# smbclient: check the files pasted on the Windows test server
+RUN apt-get update && apt-get install -y --no-install-recommends xdotool librsvg2-bin xclip locales fuse3 smbclient \
+ && sed -i -E 's/^# *(ru_RU.UTF-8|en_US.UTF-8) UTF-8/\1 UTF-8/' /etc/locale.gen && locale-gen \
+ && rm -rf /var/lib/apt/lists/*

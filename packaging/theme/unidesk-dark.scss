@@ -1,0 +1,15 @@
+// Unidesk dark theme: GTK 3.24 Adwaita (dark variant) with the Unidesk palette (_colors.scss here).
+// Built by build-theme.sh into data/style/unidesk-dark.css.
+$variant: 'dark';
+
+@import 'colors';
+@import 'drawing';
+@import 'common';
+@import 'colors-public';
+
+/*
+Unidesk named colors for the application CSS */
+@define-color accent_color #{"" + $accent_color};
+@define-color accent_fg_color #{"" + $accent_fg_color};
+@define-color popover_bg_color #{"" + $popover_bg_color};
+@define-color destructive_color #{"" + $destructive_color};

@@ -1,0 +1,90 @@
+// Unidesk dark palette for the GTK 3 Adwaita theme sources (gtk/theme/Adwaita, GTK 3.24).
+// Replaces Adwaita's _colors.scss: the widget shapes stay Adwaita (GNOME HIG), only the colours change.
+// The values come from the KDE Breeze Dark colour scheme as LACT uses it
+// (lact-gui/themes/breeze-dark.css, see LACT_DESIGN_SYSTEM.md):
+//   window #202326, view #141618, text #fcfcfc, accent #3daee9, popover #292c30,
+//   borders #4c4e51, warning #f67400, error #da4453, success #27ae60, link #1d99f3.
+// Contrast (WCAG 2.2): white text on #3daee9 is only 2.4:1, so
+//   - selected rows, text selection and hovered menu items use the accent mixed into the view (5.8:1),
+//   - suggested buttons, checks and switches keep the bright accent with dark text/marks (7.3:1).
+// Only the dark variant is built.
+
+$accent_color: #3daee9;
+$accent_fg_color: #141618;
+
+$base_color: #141618;
+$text_color: #fcfcfc;
+$bg_color: #202326;
+$fg_color: #fcfcfc;
+
+$selected_fg_color: #fcfcfc;
+$selected_bg_color: mix($accent_color, $base_color, 55%);
+$selected_borders_color: darken($selected_bg_color, 20%);
+$borders_color: #4c4e51;
+$alt_borders_color: #393c3f;
+$borders_edge: transparentize($fg_color, 0.95);
+$link_color: #1d99f3;
+$link_visited_color: #9b59b6;
+$top_hilight: $borders_edge;
+$dark_fill: mix($borders_color, $bg_color, 50%);
+$headerbar_color: $bg_color;
+$menu_color: #292c30;
+$popover_bg_color: #292c30;
+$popover_hover_color: lighten(#292c30, 5%);
+
+$scrollbar_bg_color: mix($base_color, $bg_color, 50%);
+$scrollbar_slider_color: mix($fg_color, $bg_color, 50%);
+$scrollbar_slider_hover_color: mix($fg_color, $bg_color, 70%);
+$scrollbar_slider_active_color: $accent_color;
+
+$warning_color: #f67400;
+$error_color: #da4453;
+$success_color: #27ae60;
+// white button text on #da4453 is 4.2:1; one step darker passes 4.5:1
+$destructive_color: darken(#da4453, 10%);
+
+$osd_fg_color: #fcfcfc;
+$osd_text_color: white;
+$osd_bg_color: transparentize(darken($bg_color, 4%), 0.1);
+$osd_insensitive_bg_color: transparentize(mix($osd_fg_color, opacify($osd_bg_color, 1), 10%), 0.5);
+$osd_insensitive_fg_color: mix($osd_fg_color, opacify($osd_bg_color, 1), 50%);
+$osd_borders_color: transparentize(black, 0.3);
+
+$sidebar_bg_color: mix($bg_color, $base_color, 50%);
+$base_hover_color: transparentize($fg_color, 0.95);
+
+$tooltip_borders_color: #535659;
+$shadow_color: transparentize(black, 0.9);
+
+$drop_target_color: $success_color;
+
+//insensitive state derived colors
+$insensitive_fg_color: mix($fg_color, $bg_color, 50%);
+$insensitive_bg_color: mix($bg_color, $base_color, 60%);
+$insensitive_borders_color: mix($borders_color, $bg_color, 60%);
+
+//colors for the backdrop state, derived from the main colors.
+$backdrop_base_color: lighten($base_color, 1%);
+$backdrop_text_color: mix($text_color, $backdrop_base_color, 80%);
+$backdrop_bg_color: $bg_color;
+$backdrop_fg_color: mix($fg_color, $backdrop_bg_color, 50%);
+$backdrop_insensitive_color: lighten($backdrop_bg_color, 15%);
+$backdrop_selected_fg_color: $backdrop_text_color;
+$backdrop_borders_color: mix($borders_color, $bg_color, 80%);
+$backdrop_dark_fill: mix($backdrop_borders_color, $backdrop_bg_color, 35%);
+$backdrop_sidebar_bg_color: mix($backdrop_bg_color, $backdrop_base_color, 50%);
+
+$backdrop_scrollbar_bg_color: darken($backdrop_bg_color, 3%);
+$backdrop_scrollbar_slider_color: mix($backdrop_fg_color, $backdrop_bg_color, 40%);
+
+$backdrop_menu_color: mix($backdrop_bg_color, #292c30, 20%);
+
+//special cased widget colors
+$suggested_bg_color: $accent_color;
+$suggested_fg_color: $accent_fg_color;
+$suggested_border_color: darken($accent_color, 20%);
+$progress_bg_color: $accent_color;
+$progress_border_color: darken($accent_color, 20%);
+$checkradio_bg_color: $accent_color;
+$checkradio_fg_color: $accent_fg_color;
+$checkradio_borders_color: darken($accent_color, 30%);

@@ -1,0 +1,20 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=UniDeskBrowser Connect
+Comment=Access remote desktops with UniDeskBrowser
+Categories=GTK;GNOME;X-GNOME-NetworkSettings;Network;
+Keywords=remote desktop;rdp;ssh;telnet;
+TryExec=unidesk
+Exec=unidesk -c %U
+Icon=uz.core.Unidesk
+MimeType=application/x-remmina;x-scheme-handler/remmina;x-scheme-handler/rdp;x-scheme-handler/ssh;x-scheme-handler/telnet;
+Actions=Edit;
+Terminal=false
+StartupNotify=true
+NoDisplay=true
+X-Desktop-File-Install-Version=0.24
+
+[Desktop Action Edit]
+Name=UniDeskBrowser Edit
+Exec=unidesk -e %U

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 26.458334 26.458332">
+  <!-- Telnet: terminal window with a prompt, no lock (clear-text protocol) -->
+  <path fill="#000000" fill-rule="evenodd" d="M 2.646 3.969 A 1.323 1.323 0 0 0 1.323 5.292 v 15.875 a 1.323 1.323 0 0 0 1.323 1.323 h 21.167 a 1.323 1.323 0 0 0 1.323 -1.323 V 5.292 a 1.323 1.323 0 0 0 -1.323 -1.323 z m 0.661 2.646 h 19.844 v 13.229 H 3.307 z"/>
+  <path fill="#000000" d="M 5.953 9.26 l 3.969 3.969 l -3.969 3.969 l -1.323 -1.323 l 2.646 -2.646 l -2.646 -2.646 z"/>
+  <path fill="#000000" d="M 11.245 15.875 h 7.938 v 1.984 h -7.938 z"/>
+</svg>

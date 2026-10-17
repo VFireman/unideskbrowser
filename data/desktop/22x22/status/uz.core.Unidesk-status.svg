@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Unidesk application icon.
+  Metaphor: two overlapping screens - the local one (dark, switched off) behind,
+  the remote session (red, lit) in front.
+  Drawn to the GNOME HIG app icon rules: 128 px canvas with margins, flat colours
+  from the GNOME palette (Dark 3/4/5, Red 3/4), a darker "front profile" strip at
+  the bottom edge of each slab, details on a 2 px grid, readable at 32 px.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  <!-- back screen: profile (Dark 5), bezel (Dark 4), glass (Dark 3) -->
+  <rect x="12" y="16" width="86" height="66" rx="10" fill="#000000"/>
+  <rect x="12" y="16" width="86" height="62" rx="10" fill="#241f31"/>
+  <rect x="18" y="22" width="74" height="48" rx="5" fill="#3d3846"/>
+  <!-- front screen: outline+profile (Dark 5), bezel (Red 4), glass (Red 3) -->
+  <rect x="46" y="50" width="70" height="56" rx="12" fill="#000000"/>
+  <rect x="48" y="52" width="66" height="48" rx="10" fill="#c01c28"/>
+  <rect x="54" y="58" width="54" height="34" rx="5" fill="#e01b24"/>
+</svg>
